@@ -1,0 +1,80 @@
+<html>
+<head>
+<title>Voting system</title>
+<style>
+body {
+   background-color:white;
+   text-align: center;
+     }
+.displaybox {
+   margin: auto;
+   width: 150px;
+   background-color: #FaFaFa;
+   border: 2px solid #000000;
+   padding: 10px;
+   font: 1.5em normal verdana, helvetica, arial, sans-serif;
+            }
+
+</style>
+
+<script type="text/javascript">
+var ajaxRequest=new XMLHttpRequest();
+function getcandidatelist() 
+{
+   if (!ajaxRequest)  {
+         document.getElementById("showcandidate").innerHTML = "Request error!ajax object could not be created";
+         return;      }
+   ajaxRequest.onreadystatechange = ajaxResponse;
+   ajaxRequest.open("GET","db.php");
+   ajaxRequest.send();
+}
+function ajaxResponse()  //This gets called when the readyState changes.
+{
+ if (ajaxRequest.readyState != 4)  //  check to see if we're done
+    {  return;  }
+ else {
+   if (ajaxRequest.status == 200) //  check to see if successful
+        {
+                 document.getElementById("showcandidate").innerHTML =
+                               ajaxRequest.responseText; }
+   else {
+     alert("Request failed: " + ajaxRequest.statusText);
+        }
+   }
+}
+function verification()
+    {
+        document.getElementById("showcandidate1").innerHTML=document.getElementById("myform").elements['candidate'].value;
+        alert('you have successfully casted your vote!!');
+    }
+var count = 0;
+    function changeColor()
+    {
+        count++;
+        var col="grey";
+        if(count%2==0)
+            col="red";
+        else
+            col="grey";
+        document.getElementById('showcandidate').style.backgroundColor=col;
+    }
+</script>
+</head>
+<body>
+   
+    <h1>List of candidates for the post of cr</h1>
+
+    <form >
+          <input type="button" value="Get contender list"  onclick="getcandidatelist();"/>
+        <input type="button" value="Change color"  onclick="changeColor()"/>
+    </form>
+
+    <div id="showcandidate" class="displaybox"></div>	
+    <br>
+    <input type="submit" value="Submit" onclick="verification();"/>
+    <br>
+    <br>
+    <div id="showcandidate1" class="displaybox"></div>
+
+</body>
+</html>
